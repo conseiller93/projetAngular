@@ -12,5 +12,5 @@ export const routes: Routes = [
     {path:'pays',component:ListePays},
     {path:'pays/:name',component:DetailPays },
     {path:'pokemon',component:ListesPokemons},
-    {path:'pokemon/:id',component:DetailsPokemons },
+    {path:'pokemon/:id',component:DetailsPokemons},
 ];
