@@ -1,0 +1,69 @@
+<section class="py-16 bg-gray-100">
+  <div class="max-w-4xl mx-auto px-6">
+
+    <h1 class="text-4xl font-bold text-center mb-10">
+      Recherche Pokémon & Pays
+    </h1>
+
+    <!-- 🔍 Barre de recherche -->
+    <div class="mb-12">
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        (input)="onSearch()"
+        placeholder="Rechercher un Pokémon ou un pays..."
+        class="w-full p-4 rounded-xl border shadow focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+    </div>
+
+    <!-- ================= Pokémon ================= -->
+    <div *ngIf="filteredPokemons.length > 0">
+      <h2 class="text-2xl font-bold mb-6">Pokémon</h2>
+
+      <div class="grid gap-6 sm:grid-cols-2 md:grid-cols-3 mb-12">
+        <div
+          *ngFor="let pokemon of filteredPokemons"
+          class="bg-white p-5 rounded-xl shadow text-center"
+        >
+          <h3 class="text-lg font-semibold capitalize">
+            🐾 {{ pokemon.name }}
+          </h3>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= Pays ================= -->
+    <div *ngIf="filteredCountries.length > 0">
+      <h2 class="text-2xl font-bold mb-6">Pays</h2>
+
+      <div class="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
+        <div
+          *ngFor="let country of filteredCountries"
+          class="bg-white p-5 rounded-xl shadow text-center"
+        >
+          <img
+            [src]="country.flags.svg"
+            class="w-16 h-10 mx-auto mb-3 rounded"
+            alt=""
+          />
+
+          <h3 class="text-lg font-semibold">
+            {{ country.name.common }}
+          </h3>
+        </div>
+      </div>
+    </div>
+
+    <!-- ❌ Aucun résultat -->
+    <div
+      *ngIf="filteredPokemons.length === 0 && filteredCountries.length === 0 && searchTerm"
+      class="text-center text-gray-500 mt-12"
+    >
+      Aucun Pokémon ou pays trouvé.
+    </div>
+
+  </div>
+</section>
+
+
+

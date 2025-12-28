@@ -1,9 +1,12 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet,RouterLink,RouterLinkActive } from '@angular/router';
+import { Navigation } from './core/components/navbar/navigation';
+import { Footer } from './core/components/footer/footer';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone:true,
+  imports: [RouterOutlet,Navigation,Footer],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

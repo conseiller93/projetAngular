@@ -1,0 +1,29 @@
+<h2 class="text-center mb-5 text-xl font-semibold">
+  Liste des pays
+</h2>
+
+<div class="grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-5">
+  <div
+    *ngFor="let country of countries"
+    [routerLink]="['/pays', country.name.common]"
+    class="
+      border border-gray-200 rounded-xl p-3 text-center bg-white
+      shadow transition-all duration-300 cursor-pointer
+      hover:bg-blue-50 hover:shadow-lg hover:-translate-y-1
+      active:scale-95
+    "
+  >
+    <img
+      [src]="country.flags.png"
+      [alt]="country.name.common"
+      class="w-full h-24 object-cover rounded-md mb-2"
+    />
+
+    <h3 class="text-sm font-medium">
+      {{ country.name.common }}
+    </h3>
+  </div>
+</div>
+
+
+

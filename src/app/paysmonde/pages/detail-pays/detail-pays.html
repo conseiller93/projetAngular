@@ -1,0 +1,63 @@
+<div *ngIf="country as c" class="max-w-4xl mx-auto p-6 bg-white rounded-xl shadow">
+<button
+  (click)="goBack()"
+  class="mb-6 px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 shadow transition"
+>
+  ← Retour 
+</button>
+  <!-- Drapeau -->
+  <img
+    [src]="c.flags.svg"
+    [alt]="c.name.common"
+    class="w-48 mb-6 rounded shadow"
+  />
+
+  <!-- Nom -->
+  <h1 class="text-3xl font-bold mb-6">
+    {{ c.name.common }}
+  </h1>
+
+  <!-- Infos principales -->
+  <ul class="space-y-2 text-gray-700 mb-8">
+    <li><strong>Capitale :</strong> {{ c.capital?.[0] || 'N/A' }}</li>
+    <li><strong>Continent :</strong> {{ c.region || 'N/A' }}</li>
+    <li><strong>Superficie :</strong> {{ c.area | number }} km²</li>
+    <li><strong>Population :</strong> {{ c.population | number }}</li>
+    <li><strong>Langues :</strong> {{ languagesText || 'N/A' }}</li>
+    <li><strong>Monnaies :</strong> {{ currenciesText || 'N/A' }}</li>
+  </ul>
+
+  <!-- Coordonnées -->
+  <div class="mb-8 text-gray-700">
+    <strong>Coordonnées :</strong>
+    {{ c.latlng?.[0] }}, {{ c.latlng?.[1] }}
+  </div>
+
+  <!-- 🌦️ Météo -->
+  <div *ngIf="weather" class="p-4 bg-blue-50 rounded-lg shadow">
+    <h2 class="text-xl font-semibold mb-3">🌦️ Météo actuelle</h2>
+
+    <div class="flex items-center gap-4">
+      <img
+        [src]="'https://openweathermap.org/img/wn/' + weather.weather[0].icon + '@2x.png'"
+        alt="icon météo"
+      />
+
+      <div>
+        <p class="text-lg font-semibold">
+          {{ weather.main.temp }} °C
+        </p>
+        <p class="capitalize">
+          {{ weather.weather[0].description }}
+        </p>
+        <p class="text-sm text-gray-600">
+          Humidité : {{ weather.main.humidity }} %
+        </p>
+      </div>
+    </div>
+  </div>
+
+</div>
+<div *ngIf="isLoading" class="text-center p-10">
+  Chargement des données du pays...
+

@@ -1,0 +1,23 @@
+<div *ngIf="pokemon as p" class="max-w-md mx-auto p-6 bg-white rounded-xl shadow">
+  <h1 class="text-3xl font-bold mb-4 capitalize">{{ p.name }}</h1>
+  <a
+  routerLink="/pokemon"
+  class="mb-4 inline-flex items-center text-blue-600 hover:text-blue-800 font-semibold cursor-pointer"
+>
+  ← Retour 
+</a>
+
+
+  <img
+    [src]="p.sprites.other['official-artwork'].front_default"
+    [alt]="p.name"
+    class="w-40 h-40 mx-auto mb-4"
+  />
+
+  <ul class="text-gray-700 space-y-2">
+    <li><strong>Types :</strong> {{ typesText }}</li>
+    <li><strong>Taille :</strong> {{ p.height / 10 }} m</li>
+    <li><strong>Poids :</strong> {{ p.weight / 10 }} kg</li>
+    <li><strong>Capacités :</strong> {{ abilitiesText }}</li>
+  </ul>
+</div>
