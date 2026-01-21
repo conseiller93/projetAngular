@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink,RouterLinkActive,RouterOutlet } from '@angular/router';
+import {Router,RouterLink,RouterLinkActive,RouterOutlet } from '@angular/router';
 import { RouterModule } from '@angular/router';
 
   @Component({
@@ -11,5 +11,14 @@ import { RouterModule } from '@angular/router';
   })
   export class Navigation {
     open = false;
+    constructor(private router: Router) {
+    this.router.events.subscribe(() => {
+      this.open = false;
+    });
+  }
+  logout(): void {
+  localStorage.removeItem('token');
+  this.router.navigate(['/login']);
+}
 
   }

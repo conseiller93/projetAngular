@@ -1,24 +1,54 @@
-<footer class="bg-gray-900 text-gray-300">
+<footer class="bg-gray-900 text-gray-300 mt-8">
   <div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
 
-    <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-      
-      <!-- Texte -->
-      <p class="text-sm">
-        © {{ currentYear }} — application pour devoir Angular
+      <!-- Date -->
+      <p class="text-sm md:text-base">
+        📅 {{ currentDate }}
       </p>
 
-      <!-- Liens -->
-      <nav class="flex space-x-6 text-sm">
-        <a routerLink="/" class="hover:text-white transition">Accueil</a>
-        <a routerLink="/pays" class="hover:text-white transition"> Pays</a>
-        <a routerLink="/pokemon" class="hover:text-white transition">Pokémon</a>
-        <a routerLink="/mentions-legales" class="hover:text-white transition">Mentions légales</a>
-      </nav>
+      <!-- Localisation -->
+      <p class="text-sm md:text-base">
+        📍 Localisation : {{ location }}
+      </p>
+
+      <!-- Contacts -->
+      <div class="flex flex-col md:flex-row md:space-x-6 space-y-2 md:space-y-0 text-sm">
+        
+        <!-- Email -->
+        <div class="flex items-center gap-1">
+          📧
+          <a href="mailto:{{ contacts.email }}" class="ml-1 text-blue-400 hover:text-blue-200 break-words">
+            {{ contacts.email }}
+          </a>
+        </div>
+
+        <!-- Téléphone -->
+        <div class="flex items-center gap-1">
+          📞
+          <a href="tel:{{ contacts.phone }}" class="ml-1 text-blue-400 hover:text-blue-200">
+            {{ contacts.phone }}
+          </a>
+        </div>
+
+        <!-- LinkedIn -->
+        <div class="flex items-center gap-1">
+          💼 LinkedIn :
+          <a href="{{ contacts.linkedin }}" target="_blank" class="ml-1 text-blue-400 hover:text-blue-200 break-words">
+            Profil
+          </a>
+        </div>
+
+      </div>
 
     </div>
-
   </div>
 </footer>
+
+
+
+
+
+
 
 

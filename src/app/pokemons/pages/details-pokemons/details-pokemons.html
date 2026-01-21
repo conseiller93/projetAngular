@@ -1,23 +1,50 @@
-<div *ngIf="pokemon as p" class="max-w-md mx-auto p-6 bg-white rounded-xl shadow">
-  <h1 class="text-3xl font-bold mb-4 capitalize">{{ p.name }}</h1>
+<!-- Conteneur Pokémon -->
+<div *ngIf="pokemon as p" class="max-w-2xl w-full mx-auto p-6 bg-gradient-to-br from-white via-gray-100 to-gray-200 rounded-2xl shadow-lg transition-transform hover:scale-105">
+  <!-- Nom Pokémon -->
+  <h1 class="text-4xl font-bold mb-4 capitalize text-center text-gray-800">{{ p.name }}</h1>
+
+  <!-- Bouton retour -->
   <a
-  routerLink="/pokemon"
-  class="mb-4 inline-flex items-center text-blue-600 hover:text-blue-800 font-semibold cursor-pointer"
->
-  ← Retour 
-</a>
+    routerLink="/pokemon"
+    class="mb-6 inline-flex items-center text-blue-600 hover:text-blue-800 font-semibold cursor-pointer"
+  >
+    ← Retour 
+  </a>
 
+  <!-- Image Pokémon -->
+  <div class="flex justify-center mb-6">
+    <img
+      [src]="p.sprites.other['official-artwork'].front_default"
+      [alt]="p.name"
+      class="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 rounded-xl shadow-xl"
+    />
+  </div>
 
-  <img
-    [src]="p.sprites.other['official-artwork'].front_default"
-    [alt]="p.name"
-    class="w-40 h-40 mx-auto mb-4"
-  />
-
-  <ul class="text-gray-700 space-y-2">
+  <!-- Informations -->
+  <ul class="text-gray-700 space-y-3 text-lg sm:text-base md:text-lg">
     <li><strong>Types :</strong> {{ typesText }}</li>
     <li><strong>Taille :</strong> {{ p.height / 10 }} m</li>
     <li><strong>Poids :</strong> {{ p.weight / 10 }} kg</li>
     <li><strong>Capacités :</strong> {{ abilitiesText }}</li>
   </ul>
 </div>
+
+<!-- Conteneur Statistiques -->
+<div *ngIf="stats.length > 0" class="mt-8 p-6 bg-gradient-to-r from-gray-100 via-gray-200 to-gray-100 rounded-2xl shadow-lg max-w-2xl w-full mx-auto transition-transform hover:scale-105">
+  <h2 class="text-2xl sm:text-3xl font-semibold mb-6 text-gray-800 text-center">📊 Statistiques</h2>
+
+  <div *ngFor="let s of stats" class="mb-4">
+    <div class="flex justify-between mb-2 text-sm sm:text-base font-medium text-gray-700">
+      <span class="capitalize">{{ s.name }}</span>
+      <span>{{ s.value }}</span>
+    </div>
+    <div class="w-full bg-gray-300 h-4 rounded-full overflow-hidden">
+      <div
+        class="bg-gradient-to-r from-blue-400 to-blue-600 h-4 rounded-full transition-all duration-500"
+        [style.width.%]="s.percentage"
+      ></div>
+    </div>
+  </div>
+</div>
+
+

@@ -1,69 +1,84 @@
-<section class="py-16 bg-gray-100">
-  <div class="max-w-4xl mx-auto px-6">
+<section class="py-16 bg-gradient-to-b from-gray-100 to-gray-50 min-h-screen">
+  <div class="max-w-5xl mx-auto px-6">
 
-    <h1 class="text-4xl font-bold text-center mb-10">
-      Recherche Pokémon & Pays
-    </h1>
+    <!-- 🔹 Texte de bienvenue -->
+    <div class="mb-12 text-center">
+      <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-800 mb-4">
+        Bienvenue sur votre Recherche Pokémon & Pays !
+      </h1>
+      <p class="text-gray-600 text-lg sm:text-xl">
+        Trouvez facilement vos Pokémon favoris ou explorez les pays du monde 🌍
+      </p>
+    </div>
 
     <!-- 🔍 Barre de recherche -->
-    <div class="mb-12">
+    <div class="mb-12 relative">
       <input
         type="text"
         [(ngModel)]="searchTerm"
         (input)="onSearch()"
         placeholder="Rechercher un Pokémon ou un pays..."
-        class="w-full p-4 rounded-xl border shadow focus:outline-none focus:ring-2 focus:ring-blue-500"
+        class="w-full p-4 pl-12 rounded-xl border border-gray-300 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition bg-white"
       />
+      <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg">🔍</span>
     </div>
 
     <!-- ================= Pokémon ================= -->
-    <div *ngIf="filteredPokemons.length > 0">
-      <h2 class="text-2xl font-bold mb-6">Pokémon</h2>
+    <div *ngIf="filteredPokemons.length > 0" class="mb-12">
+      <h2 class="text-2xl font-bold mb-6 text-gray-700 border-b pb-2">Pokémon</h2>
 
-      <div class="grid gap-6 sm:grid-cols-2 md:grid-cols-3 mb-12">
+      <div class="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         <div
           *ngFor="let pokemon of filteredPokemons"
-          class="bg-white p-5 rounded-xl shadow text-center"
+          [routerLink]="['/pokemon', getPokemonId(pokemon.url)]"
+          class="bg-gray-900 p-6 rounded-2xl shadow-md hover:shadow-xl transform hover:-translate-y-1 transition-all cursor-pointer text-center"
         >
-          <h3 class="text-lg font-semibold capitalize">
+          <h3 class="text-lg font-semibold capitalize mb-2 text-white">
             🐾 {{ pokemon.name }}
           </h3>
+          <div class="text-sm text-gray-300">ID: {{ getPokemonId(pokemon.url) }}</div>
         </div>
       </div>
     </div>
 
     <!-- ================= Pays ================= -->
     <div *ngIf="filteredCountries.length > 0">
-      <h2 class="text-2xl font-bold mb-6">Pays</h2>
+      <h2 class="text-2xl font-bold mb-6 text-gray-700 border-b pb-2">Pays</h2>
 
-      <div class="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
+      <div class="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         <div
           *ngFor="let country of filteredCountries"
-          class="bg-white p-5 rounded-xl shadow text-center"
+          [routerLink]="['/pays', encode(country.name.common)]"
+          class="bg-gray-900 p-6 rounded-2xl shadow-md hover:shadow-xl transform hover:-translate-y-1 transition-all cursor-pointer text-center"
         >
           <img
             [src]="country.flags.svg"
-            class="w-16 h-10 mx-auto mb-3 rounded"
-            alt=""
+            class="w-20 h-12 mx-auto mb-3 rounded shadow-sm"
+            alt="Drapeau de {{ country.name.common }}"
           />
-
-          <h3 class="text-lg font-semibold">
+          <h3 class="text-lg font-semibold text-white mb-1">
             {{ country.name.common }}
           </h3>
+          <div class="text-sm text-gray-300">
+            Capitale: {{ country.capital ? country.capital[0] : 'N/A' }}
+          </div>
         </div>
       </div>
     </div>
 
     <!-- ❌ Aucun résultat -->
     <div
-      *ngIf="filteredPokemons.length === 0 && filteredCountries.length === 0 && searchTerm"
-      class="text-center text-gray-500 mt-12"
+      *ngIf="searchTerm && filteredPokemons.length === 0 && filteredCountries.length === 0"
+      class="text-center text-gray-500 mt-12 italic"
     >
       Aucun Pokémon ou pays trouvé.
     </div>
 
   </div>
 </section>
+
+
+
 
 
 

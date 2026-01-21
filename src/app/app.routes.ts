@@ -6,11 +6,16 @@ import { DetailPays } from './paysmonde/pages/detail-pays/detail-pays';
 import { ListesPokemons } from './pokemons/pages/listes-pokemons/listes-pokemons';
 import { DetailsPokemons  } from './pokemons/pages/details-pokemons/details-pokemons';
 import { RouterModule } from '@angular/router';
+import { AuthGuard } from './guards/auth.guards';
+import {Login} from './login/login'
+
 
 export const routes: Routes = [
-    {path:'',component:Home,pathMatch:'full'},
-    {path:'pays',component:ListePays},
-    {path:'pays/:name',component:DetailPays },
-    {path:'pokemon',component:ListesPokemons},
-    {path:'pokemon/:id',component:DetailsPokemons},
+  { path: '', component: Home, pathMatch: 'full' }, // 🟢 page publique
+  {path:'login',component:Login},
+  { path: 'pays', component: ListePays, canActivate: [AuthGuard] }, // 🔒 protégé
+  { path: 'pays/:name', component: DetailPays, canActivate: [AuthGuard] }, // 🔒 protégé
+  { path: 'pokemon', component: ListesPokemons, canActivate: [AuthGuard] }, // 🔒 protégé
+  { path: 'pokemon/:id', component: DetailsPokemons, canActivate: [AuthGuard] }, // 🔒 protégé
 ];
+

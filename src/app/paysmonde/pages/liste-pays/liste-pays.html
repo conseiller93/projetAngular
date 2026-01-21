@@ -1,29 +1,49 @@
-<h2 class="text-center mb-5 text-xl font-semibold">
+<!-- 🔹 Introduction avant les pays -->
+<div class="text-center mb-8">
+  <h2 class="text-3xl font-bold text-gray-800 mb-2">
+    🌍 Explorez les pays du monde
+  </h2>
+  <p class="text-gray-600 text-lg sm:text-xl">
+    Cliquez sur un pays pour découvrir ses informations et sa météo !
+  </p>
+</div>
+
+<h2 class="text-center mb-5 text-xl font-semibold text-gray-800">
   Liste des pays
 </h2>
 
 <div class="grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-5">
   <div
     *ngFor="let country of countries"
-    [routerLink]="['/pays', country.name.common]"
+    [routerLink]="['/pays', encodeName(country.name.common)]"
     class="
-      border border-gray-200 rounded-xl p-3 text-center bg-white
-      shadow transition-all duration-300 cursor-pointer
-      hover:bg-blue-50 hover:shadow-lg hover:-translate-y-1
+      rounded-xl p-3 text-center bg-gray-900 text-white
+      shadow-md transition-all duration-300 cursor-pointer
+      hover:bg-blue-600 hover:shadow-lg hover:-translate-y-1
       active:scale-95
     "
   >
+    <!-- Drapeau -->
     <img
       [src]="country.flags.png"
-      [alt]="country.name.common"
+      [alt]="'Drapeau de ' + country.name.common"
       class="w-full h-24 object-cover rounded-md mb-2"
     />
 
-    <h3 class="text-sm font-medium">
+    <!-- Nom du pays -->
+    <h3 class="text-sm font-medium mb-1">
       {{ country.name.common }}
     </h3>
+
+    <!-- Quelques informations rapides -->
+    <div class="text-xs text-gray-300">
+      Capitale: {{ country.capital ? country.capital[0] : 'N/A' }} <br>
+      Région: {{ country.region }} <br>
+      Population: {{ country.population | number }}
+    </div>
   </div>
 </div>
+
 
 
 
