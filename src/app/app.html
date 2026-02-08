@@ -1,20 +1,19 @@
-<div class="min-h-screen flex flex-col">
-  <!-- Navbar -->
-  <app-navigation></app-navigation>
-  <!-- Contenu principal -->
-  <main class="flex-grow">
-    <router-outlet></router-outlet>
+<div class="min-h-screen flex flex-col transition-colors duration-500
+            bg-gray-50 text-gray-900 
+            dark:bg-gradient-to-b dark:from-black dark:to-gray-900 dark:text-white 
+            selection:bg-blue-500">
+  
+  @if (authService.isLoggedIn()) {
+    <app-navigation></app-navigation>
+  }
+
+  <main class="flex-grow pt-16">
+    <div class="container mx-auto px-4 py-8">
+       <router-outlet></router-outlet>
+    </div>
   </main>
 
-  <!-- Footer -->
-  <app-footer></app-footer>
-  </div>
- <!-- import { BootstrapContext, bootstrapApplication } from '@angular/platform-browser'; -->
-  <!-- import { App } from './app/app'; -->
-   <!-- import { config } from './app/app.config.server'; -->
-
-  <!-- const bootstrap = (context: BootstrapContext) => -->
-    <!-- bootstrapApplication(App, config, context); -->
-
-<!-- export default bootstrap;   "@angular/platform-server": "^20.3.0",  -->
-      
+  @if (authService.isLoggedIn()) {
+    <app-footer></app-footer>
+  }
+</div>

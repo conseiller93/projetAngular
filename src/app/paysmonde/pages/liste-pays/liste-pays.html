@@ -1,49 +1,49 @@
-<!-- 🔹 Introduction avant les pays -->
 <div class="text-center mb-8">
-  <h2 class="text-3xl font-bold text-gray-800 mb-2">
+  <h2 class="text-3xl font-bold text-white mb-2 drop-shadow-md">
     🌍 Explorez les pays du monde
   </h2>
-  <p class="text-gray-600 text-lg sm:text-xl">
-    Cliquez sur un pays pour découvrir ses informations et sa météo !
+  <p class="text-gray-400 text-lg">
+    Filtrez par continent et découvrez les secrets de chaque nation !
   </p>
 </div>
 
-<h2 class="text-center mb-5 text-xl font-semibold text-gray-800">
-  Liste des pays
+<div class="flex flex-wrap justify-center gap-3 mb-10">
+  <button 
+    *ngFor="let region of regions"
+    (click)="filterByRegion(region)"
+    [class]="selectedRegion === region 
+      ? 'bg-blue-600 border-blue-400 text-white shadow-[0_0_15px_rgba(59,130,246,0.5)]' 
+      : 'bg-gray-800/40 border-gray-700 text-gray-400 hover:bg-gray-700'"
+    class="px-5 py-2 rounded-full border backdrop-blur-md transition-all duration-300 font-medium text-sm"
+  >
+    {{ region === 'All' ? 'Tous les pays' : region }}
+  </button>
+</div>
+
+<h2 class="text-center mb-6 text-xl font-semibold text-blue-400 uppercase tracking-widest">
+  {{ selectedRegion === 'All' ? 'Liste de tous les pays' : 'Pays en ' + selectedRegion }}
 </h2>
 
-<div class="grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-5">
+<div class="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-6">
   <div
-    *ngFor="let country of countries"
+    *ngFor="let country of filteredCountries"
     [routerLink]="['/pays', encodeName(country.name.common)]"
-    class="
-      rounded-xl p-3 text-center bg-gray-900 text-white
-      shadow-md transition-all duration-300 cursor-pointer
-      hover:bg-blue-600 hover:shadow-lg hover:-translate-y-1
-      active:scale-95
-    "
+    class="rounded-2xl p-4 text-center bg-gray-800/40 backdrop-blur-md text-white border border-gray-700 shadow-lg transition-all duration-300 cursor-pointer hover:border-blue-500 hover:bg-gray-700/60 hover:shadow-blue-900/40 hover:-translate-y-2 group"
   >
-    <!-- Drapeau -->
-    <img
-      [src]="country.flags.png"
-      [alt]="'Drapeau de ' + country.name.common"
-      class="w-full h-24 object-cover rounded-md mb-2"
-    />
+    <div class="overflow-hidden rounded-lg mb-4 shadow-inner">
+      <img [src]="country.flags.png" class="w-full h-28 object-cover group-hover:scale-110 transition-transform duration-500" />
+    </div>
 
-    <!-- Nom du pays -->
-    <h3 class="text-sm font-medium mb-1">
+    <h3 class="text-lg font-bold mb-2 group-hover:text-blue-400 transition-colors">
       {{ country.name.common }}
     </h3>
 
-    <!-- Quelques informations rapides -->
-    <div class="text-xs text-gray-300">
-      Capitale: {{ country.capital ? country.capital[0] : 'N/A' }} <br>
-      Région: {{ country.region }} <br>
-      Population: {{ country.population | number }}
+    <div class="text-xs space-y-1 text-gray-400 font-medium">
+      <p><span class="text-gray-500">🏛️</span> {{ country.capital ? country.capital[0] : 'N/A' }}</p>
+      <p><span class="text-gray-500">📍</span> {{ country.region }}</p>
+      <p class="bg-black/30 rounded-full py-1 mt-2 text-blue-300">
+        👥 {{ country.population | number }} hab.
+      </p>
     </div>
   </div>
 </div>
-
-
-
-

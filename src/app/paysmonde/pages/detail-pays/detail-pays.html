@@ -1,72 +1,118 @@
-<!-- Conteneur Pays -->
-<div *ngIf="country as c" class="max-w-2xl w-full mx-auto p-6 bg-gradient-to-br from-white via-gray-100 to-gray-200 rounded-2xl shadow-lg transition-transform hover:scale-105">
-  <!-- Nom Pays -->
-  <h1 class="text-4xl font-bold mb-4 text-center text-gray-800">{{  country.name.common }}</h1>
-
-  <!-- Bouton retour -->
-  <button
-    (click)="goBack()"
-    class="mb-6 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white shadow font-semibold transition"
-  >
-    ← Retour
+<div class="max-w-2xl mx-auto mb-6 flex justify-between items-center px-2">
+  <button (click)="goBack()" class="text-gray-400 hover:text-blue-400 transition-colors flex items-center font-bold text-sm uppercase tracking-wider">
+    <span class="mr-2 text-lg">←</span> Retour
   </button>
+  
+  <button (click)="toggleLanguage()" 
+    class="px-4 py-2 bg-blue-600/20 border border-blue-500/40 rounded-xl text-blue-400 text-[10px] font-black uppercase tracking-[0.15em] hover:bg-blue-600 hover:text-white transition-all shadow-lg active:scale-95 flex items-center gap-2">
+    <span>🌐</span>
+    Traduire en {{ currentLang === 'fr' ? 'Anglais' : 'Français' }}
+    <span>{{ currentLang === 'fr' ? '🇬🇧' : '🇫🇷' }}</span>
+  </button>
+</div>
 
-  <!-- Drapeau -->
-  <div class="flex justify-center mb-6">
-    <img [src]="c.flags.svg" [alt]="country.name.common" class="w-48 h-32 sm:w-56 sm:h-36 md:w-64 md:h-40 rounded-xl shadow-xl object-cover" />
+<div *ngIf="country as c" class="max-w-2xl w-full mx-auto p-6 md:p-8 bg-gray-800/40 backdrop-blur-md border border-gray-700 rounded-3xl shadow-2xl overflow-hidden">
+  
+  <div class="flex justify-between items-start mb-8">
+    <div>
+      <h1 class="text-4xl font-black capitalize text-white tracking-tight leading-none">{{ c.name.common }}</h1>
+      <p class="text-blue-400 text-xs font-bold uppercase tracking-[0.2em] mt-2">{{ c.region }} — {{ c.subregion }}</p>
+    </div>
+    
+    <button 
+      (click)="toggleCountryFavorite(c)" 
+      class="p-3 rounded-2xl bg-gray-900/50 border border-gray-700 hover:scale-110 transition-all active:scale-90 group shadow-xl">
+      <span [class]="isCountryFavorite(c.name.common) ? 'text-red-500' : 'text-gray-500 group-hover:text-red-400'" class="text-2xl">
+        {{ isCountryFavorite(c.name.common) ? '❤️' : '🤍' }}
+      </span>
+    </button>
   </div>
 
-  <!-- Infos principales -->
-  <ul class="text-gray-700 space-y-3 text-lg sm:text-base md:text-lg">
-    <li><strong>Capitale :</strong> {{ country.capital?.[0] || 'N/A' }}</li>
-    <li><strong>Continent :</strong> {{ country.region || 'N/A' }}</li>
-    <li><strong>Superficie :</strong> {{ country.area | number }} km²</li>
-    <li><strong>Population :</strong> {{ country.population | number }}</li>
-    <li><strong>Langues :</strong> {{ languagesText || 'N/A' }}</li>
-    <li><strong>Monnaies :</strong> {{ currenciesText || 'N/A' }}</li>
-    <li> <strong>Coordonnées :</strong> {{ country.latlng?.[0] }}, {{ country.latlng?.[1] }}</li>
-  </ul>
-</div>
-<!-- Conteneur Wikipedia -->
-<div *ngIf="wikiExtract" class="mt-8 p-6 bg-gradient-to-br from-gray-100 via-gray-200 to-gray-100 rounded-2xl shadow-lg max-w-2xl w-full mx-auto transition-transform hover:scale-105">
-  <h2 class="text-2xl sm:text-3xl font-semibold mb-4 text-gray-800 text-center">🌐 Aperçu Wikipedia</h2>
-  <p class="text-gray-700 text-base sm:text-lg">{{ wikiExtract }}</p>
-</div>
+  <div class="relative flex justify-center mb-10 group">
+    <div class="absolute inset-0 bg-blue-500/10 blur-3xl rounded-full group-hover:bg-blue-500/20 transition-all"></div>
+    <img [src]="c.flags.svg" [alt]="c.name.common" 
+      class="relative w-full h-48 sm:h-64 object-cover rounded-2xl shadow-2xl border border-gray-700 z-10 transform transition-transform group-hover:scale-[1.01]" />
+  </div>
 
-<!-- Conteneur Personnalités -->
-<div class="mt-8 p-6 bg-gradient-to-br from-gray-100 via-gray-200 to-gray-100 rounded-2xl shadow-lg max-w-2xl w-full mx-auto transition-transform hover:scale-105">
-  <h2 class="text-2xl sm:text-3xl font-semibold mb-4 text-gray-800 text-center">🎭 Personnalités célèbres</h2>
-  <p class="text-gray-700 text-base sm:text-lg">{{ wikiPersonalities || "Aucune information disponible" }}</p>
-</div>
-
-<!-- Conteneur Économie -->
-<div class="mt-8 p-6 bg-gradient-to-br from-gray-100 via-gray-200 to-gray-100 rounded-2xl shadow-lg max-w-2xl w-full mx-auto transition-transform hover:scale-105">
-  <h2 class="text-2xl sm:text-3xl font-semibold mb-4 text-gray-800 text-center">💰 Économie</h2>
-  <p class="text-gray-700 text-base sm:text-lg">{{ wikiEconomy || "Aucune information disponible" }}</p>
-</div>
-
-<!-- Conteneur Carte -->
-<div *ngIf="country?.latlng" class="mt-8 p-6 bg-gradient-to-br from-gray-100 via-gray-200 to-gray-100 rounded-2xl shadow-lg max-w-2xl w-full mx-auto transition-transform hover:scale-105">
-  <h2 class="text-2xl sm:text-3xl font-semibold mb-4 text-gray-800 text-center">🗺️ Carte et pays limitrophes</h2>
-  <img [src]="getOSMMapUrl()" alt="Carte de {{ country.name.common }}" class="w-full h-48 sm:h-64 md:h-72 rounded-xl shadow-lg object-cover" />
-</div>
-
-<!-- Conteneur Météo -->
-<div *ngIf="weather" class="mt-8 p-6 bg-gradient-to-br from-blue-50 via-blue-100 to-blue-50 rounded-2xl shadow-lg max-w-2xl w-full mx-auto transition-transform hover:scale-105">
-  <h2 class="text-2xl sm:text-3xl font-semibold mb-4 text-gray-800 text-center">🌦️ Météo actuelle</h2>
-  <div class="flex flex-col sm:flex-row items-center gap-4 justify-center">
-    <img [src]="'https://openweathermap.org/img/wn/' + weather.weather[0].icon + '@2x.png'" alt="icon météo" />
-    <div class="text-center sm:text-left">
-      <p class="text-lg font-semibold">{{ weather.main.temp }} °C</p>
-      <p class="capitalize text-gray-700">{{ weather.weather[0].description }}</p>
-      <p class="text-sm text-gray-600">Humidité : {{ weather.main.humidity }} %</p>
+  <div class="grid grid-cols-2 gap-3 text-sm">
+    <div class="bg-black/30 p-4 rounded-2xl border border-gray-700/50 hover:border-gray-600 transition-colors">
+      <p class="text-blue-400 font-black uppercase text-[9px] mb-1 tracking-widest">Capitale</p>
+      <p class="text-gray-200 font-bold">{{ c.capital?.[0] || 'N/A' }}</p>
+    </div>
+    <div class="bg-black/30 p-4 rounded-2xl border border-gray-700/50 hover:border-gray-600 transition-colors">
+      <p class="text-blue-400 font-black uppercase text-[9px] mb-1 tracking-widest">Population</p>
+      <p class="text-gray-200 font-bold">{{ c.population | number }} hab.</p>
+    </div>
+    <div class="bg-black/30 p-4 rounded-2xl border border-gray-700/50 hover:border-gray-600 transition-colors">
+      <p class="text-blue-400 font-black uppercase text-[9px] mb-1 tracking-widest">Superficie</p>
+      <p class="text-gray-200 font-bold">{{ c.area | number }} km²</p>
+    </div>
+    <div class="bg-black/30 p-4 rounded-2xl border border-gray-700/50 hover:border-gray-600 transition-colors">
+      <p class="text-blue-400 font-black uppercase text-[9px] mb-1 tracking-widest">Monnaie</p>
+      <p class="text-gray-200 font-bold truncate">{{ currenciesText }}</p>
     </div>
   </div>
 </div>
 
-<!-- Loading -->
-<div *ngIf="isLoading" class="text-center p-10 text-gray-500">
-  Chargement des données du pays...
+<div class="space-y-6 mt-8 max-w-2xl mx-auto pb-12">
+  
+  <div *ngIf="wikiData[currentLang].extract" class="p-6 bg-gray-800/30 border border-gray-700 rounded-2xl backdrop-blur-sm relative overflow-hidden">
+    <div class="absolute top-0 right-0 p-3">
+       <span class="text-[9px] bg-blue-500/20 text-blue-300 px-2 py-1 rounded-md font-black uppercase border border-blue-500/20">{{ currentLang }}</span>
+    </div>
+    <h2 class="text-xl font-black mb-4 text-blue-400 flex items-center gap-2">
+      <span class="text-2xl">📜</span> {{ currentLang === 'fr' ? 'Histoire & Aperçu' : 'History & Overview' }}
+    </h2>
+    <p class="text-gray-300 leading-relaxed text-sm md:text-base italic">
+      "{{ wikiData[currentLang].extract }}"
+    </p>
+  </div>
+
+  <div class="p-6 bg-gray-800/30 border border-gray-700 rounded-2xl">
+    <h2 class="text-xl font-black mb-4 text-purple-400 flex items-center gap-2">
+      <span class="text-2xl">🎭</span> {{ currentLang === 'fr' ? 'Personnalités' : 'Famous People' }}
+    </h2>
+    <div class="grid grid-cols-1 gap-3">
+      <p class="text-gray-400 text-sm bg-black/20 p-4 rounded-xl border border-dashed border-gray-700">
+        {{ currentLang === 'fr' ? 'Section en cours de synchronisation avec Wikipedia...' : 'Synchronizing section with Wikipedia...' }}
+      </p>
+    </div>
+  </div>
+
+  <div class="p-6 bg-gray-800/30 border border-gray-700 rounded-2xl">
+    <h2 class="text-xl font-black mb-4 text-green-400 flex items-center gap-2">
+      <span class="text-2xl">🏔️</span> {{ currentLang === 'fr' ? 'Géographie & Économie' : 'Geography & Economy' }}
+    </h2>
+    <div class="space-y-4">
+      <div class="flex items-center gap-4 bg-black/20 p-4 rounded-xl">
+        <div class="text-3xl">📊</div>
+        <div>
+           <p class="text-[10px] font-black text-gray-500 uppercase">{{ currentLang === 'fr' ? 'Classement mondial' : 'World Ranking' }}</p>
+           <p class="text-white font-bold">{{ currentLang === 'fr' ? 'Données bientôt disponibles' : 'Data available soon' }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="weather" class="p-6 bg-blue-900/20 border border-blue-500/30 backdrop-blur-md rounded-3xl shadow-xl transition-all hover:bg-blue-900/30">
+    <h2 class="text-xl font-black mb-4 text-center text-blue-300 uppercase tracking-widest">Météo Locale</h2>
+    <div class="flex items-center justify-around">
+      <div class="relative">
+        <div class="absolute inset-0 bg-blue-400/20 blur-xl rounded-full"></div>
+        <img [src]="'https://openweathermap.org/img/wn/' + weather.weather[0].icon + '@4x.png'" alt="weather icon" class="relative w-20 h-20" />
+      </div>
+      <div class="text-right">
+        <p class="text-4xl font-black text-white leading-none">{{ weather.main.temp }}°C</p>
+        <p class="capitalize text-blue-300 font-bold text-sm mt-1">{{ weather.weather[0].description }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="isLoading" class="text-center py-10">
+    <div class="animate-spin inline-block w-8 h-8 border-[3px] border-blue-500 border-t-transparent rounded-full"></div>
+    <p class="text-gray-500 mt-3 text-xs font-bold uppercase tracking-widest">Recherche Wikipedia...</p>
+  </div>
+
 </div>
 
 

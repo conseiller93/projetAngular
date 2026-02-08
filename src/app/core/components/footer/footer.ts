@@ -1,17 +1,20 @@
-import { Component } from '@angular/core';
-import { RouterLink } from "@angular/router";
+import { Component, OnInit, PLATFORM_ID, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-footer',
   standalone: true,
-  imports: [RouterLink],
+  imports: [],
   templateUrl: './footer.html',
   styleUrls: ['./footer.css'],
 })
-export class Footer {
+export class Footer implements OnInit {
+  private platformId = inject(PLATFORM_ID);
+  private http = inject(HttpClient);
+
   currentDate: string = '';
-  location: string = 'Localisation inconnue';
+  location: string = 'Recherche en cours...';
 
   contacts = {
     email: 'mddiallo154@gmail.com',
@@ -19,39 +22,34 @@ export class Footer {
     linkedin: 'https://www.linkedin.com/in/tonprofil'
   };
 
-  constructor(private http: HttpClient) {}
-
   ngOnInit(): void {
-    // 🔹 Date du jour
-    const now = new Date();
-    this.currentDate = now.toLocaleDateString('fr-FR', { 
+    // 1. Date (Fonctionne partout)
+    this.currentDate = new Date().toLocaleDateString('fr-FR', { 
       weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' 
     });
 
-    // 🔹 Localisation actuelle (pays)
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-
-          // API OpenStreetMap Nominatim pour obtenir le pays
-          this.http.get<any>(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`)
-            .subscribe({
-              next: (data) => {
-                this.location = data.address?.country || 'Pays inconnu';
-              },
-              error: () => {
-                this.location = 'Pays inconnu';
-              }
-            });
-
-        },
-        (error) => {
-          console.warn('Localisation non disponible', error);
-        }
-      );
+    // 2. Géolocalisation (Uniquement sur le navigateur)
+    if (isPlatformBrowser(this.platformId)) {
+      this.getUserLocation();
+    } else {
+      this.location = 'Serveur (localisation indisponible)';
     }
   }
+
+  getUserLocation() {
+  // On utilise une API gratuite qui devine le lieu via l'adresse IP
+  // Pas besoin de permission navigator.geolocation !
+  this.http.get<any>('https://ipapi.co/json/').subscribe({
+    next: (data) => {
+      // data contient city, country_name, etc.
+      this.location = `${data.city}, ${data.country_name}`;
+    },
+    error: (err) => {
+      console.error('Erreur IP API', err);
+      this.location = 'Localisation indisponible';
+    }
+  });
+}
 }
 
 

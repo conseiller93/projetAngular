@@ -1,3 +1,4 @@
+
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -17,7 +18,11 @@ export class DetailsPokemons implements OnInit {
 
   typesText = '';
   abilitiesText = '';
-  stats: any[] = []; // <-- Nouveau tableau pour les stats
+  stats: any[] = [];
+  
+  // 🔹 Gestion des favoris
+  favorites: any[] = [];
+  private readonly FAV_KEY = 'poke_favs';
 
   constructor(
     private route: ActivatedRoute,
@@ -26,6 +31,8 @@ export class DetailsPokemons implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.loadFavorites(); // Charger les favoris stockés
+    
     const id = this.route.snapshot.paramMap.get('id');
     if (!id) return;
 
@@ -41,8 +48,7 @@ export class DetailsPokemons implements OnInit {
         this.abilitiesText =
           data.abilities?.map((a: any) => a.ability.name).join(', ') || 'N/A';
 
-        // 🔹 Préparer stats pour affichage en pourcentage
-        // On prend la valeur / 255 (max stat possible) * 100
+        // Préparer stats pour affichage en pourcentage
         this.stats = data.stats?.map((s: any) => ({
           name: s.stat.name,
           value: s.base_stat,
@@ -59,8 +65,34 @@ export class DetailsPokemons implements OnInit {
       },
     });
   }
-}
 
+  // --- MÉTHODES FAVORIS ---
+
+  private loadFavorites() {
+    const saved = localStorage.getItem(this.FAV_KEY);
+    this.favorites = saved ? JSON.parse(saved) : [];
+  }
+
+  isFavorite(id: number): boolean {
+    return this.favorites.some(fav => fav.id === id);
+  }
+
+  toggleFavorite(pokemon: any) {
+    if (this.isFavorite(pokemon.id)) {
+      // Retirer
+      this.favorites = this.favorites.filter(fav => fav.id !== pokemon.id);
+    } else {
+      // Ajouter (on stocke le minimum d'infos nécessaires)
+      this.favorites.push({
+        id: pokemon.id,
+        name: pokemon.name,
+        image: pokemon.sprites.other['official-artwork'].front_default
+      });
+    }
+    // Sauvegarder dans le navigateur
+    localStorage.setItem(this.FAV_KEY, JSON.stringify(this.favorites));
+  }
+}
 
 
 

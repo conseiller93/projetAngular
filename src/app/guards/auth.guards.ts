@@ -1,25 +1,21 @@
-import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+// src/app/guards/auth.guard.ts
+import { inject } from '@angular/core';
+import { Router, CanActivateFn } from '@angular/router';
+import { AuthService } from '../core/auth/auth';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class AuthGuard implements CanActivate {
-  constructor(private router: Router) {}
+export const AuthGuard: CanActivateFn = (route, state) => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
 
- canActivate(): boolean {
-  const token = localStorage.getItem('token');
+  // On vérifie le signal OU le localStorage en direct
+  const isAuth = authService.isLoggedIn() || localStorage.getItem('isLoggedIn') === 'true';
 
-  if (token) {
+  if (isAuth) {
     return true;
   }
 
-  // 🔹 sauvegarde l’URL demandée
-  localStorage.setItem('redirectUrl', this.router.url);
-
-  this.router.navigate(['/login']);
+  // Si on n'est pas connecté, on redirige
+  console.warn("Accès refusé par le Guard !");
+  router.navigate(['/login']);
   return false;
-}
-
-
-}
+};

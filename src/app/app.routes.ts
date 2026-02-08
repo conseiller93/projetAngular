@@ -7,15 +7,31 @@ import { ListesPokemons } from './pokemons/pages/listes-pokemons/listes-pokemons
 import { DetailsPokemons  } from './pokemons/pages/details-pokemons/details-pokemons';
 import { RouterModule } from '@angular/router';
 import { AuthGuard } from './guards/auth.guards';
-import {Login} from './login/login'
-
+import { AdminUsers } from './core/components/admin-users/admin-users';
+import {LoginComponent} from './login/login';
+import { adminGuard } from './guards/admin.guard';
+import { FavorisComponent } from './favoris/favoris';
+// ... importe tes autres composants (Home, ListePays, etc.)
 
 export const routes: Routes = [
-  { path: '', component: Home, pathMatch: 'full' }, // 🟢 page publique
-  {path:'login',component:Login},
-  { path: 'pays', component: ListePays, canActivate: [AuthGuard] }, // 🔒 protégé
-  { path: 'pays/:name', component: DetailPays, canActivate: [AuthGuard] }, // 🔒 protégé
-  { path: 'pokemon', component: ListesPokemons, canActivate: [AuthGuard] }, // 🔒 protégé
-  { path: 'pokemon/:id', component: DetailsPokemons, canActivate: [AuthGuard] }, // 🔒 protégé
+  // 1. La racine doit rediriger vers l'accueil (qui est protégé)
+  { path: '', redirectTo: 'accueil', pathMatch: 'full' },
+
+  // 2. La page de login
+  { path: 'login', component: LoginComponent },
+
+  // 3. Les pages protégées
+  { path: 'accueil', component: Home, canActivate: [AuthGuard] },
+  { path: 'pays', component: ListePays, canActivate: [AuthGuard] },
+  { path: 'pays/:name', component: DetailPays, canActivate: [AuthGuard] },
+  { path: 'pokemon', component: ListesPokemons, canActivate: [AuthGuard] },
+  { path: 'pokemon/:id', component: DetailsPokemons, canActivate: [AuthGuard] },
+  { 
+    path: 'utilisateurs', component: AdminUsers, canActivate: [adminGuard] // 🛡️ Protection activée ici
+  },
+   { path: 'favoris', component: FavorisComponent,canActivate: [AuthGuard] }, // Protéger la page des favoris aussi,
+  // 4. (Optionnel) Redirection pour les URLs inconnues
+  { path: '**', redirectTo: 'accueil' },
+ 
 ];
 
