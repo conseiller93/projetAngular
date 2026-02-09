@@ -1,36 +1,36 @@
-<div class="flex h-screen w-full items-start justify-center px-2 pt-2 overflow-hidden bg-transparent">
+<div class="flex h-screen w-full items-start justify-center px-2 pt-2 overflow-hidden bg-transparent transition-colors duration-300">
   
-  <div class="w-full max-w-sm space-y-2 rounded-3xl bg-gray-800/40 backdrop-blur-xl p-6 shadow-2xl border border-gray-700">
+  <div class="w-full max-w-sm space-y-2 rounded-3xl bg-white/80 dark:bg-gray-800/40 backdrop-blur-xl p-6 shadow-xl dark:shadow-2xl border border-gray-200 dark:border-gray-700">
     
     <div class="text-center">
-      <div class="mx-auto h-10 w-10 rounded-2xl bg-blue-600/20 flex items-center justify-center border border-blue-500/30 mb-2">
+      <div class="mx-auto h-10 w-10 rounded-2xl bg-blue-100 dark:bg-blue-600/20 flex items-center justify-center border border-blue-200 dark:border-blue-500/30 mb-2">
         <span class="text-xl">🔐</span>
       </div>
-      <h2 class="text-2xl font-black text-white tracking-tight">Connexion</h2>
-      <p class="mt-1 text-xs text-gray-400">Accès administration</p>
+      <h2 class="text-2xl font-black text-gray-900 dark:text-white tracking-tight">Connexion</h2>
+      <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Accès administration</p>
     </div>
 
     <form class="mt-4 space-y-4" (submit)="$event.preventDefault()">
       <div class="space-y-3">
         <div>
-          <label class="block text-[10px] font-black text-blue-400 uppercase tracking-[0.2em] mb-1 ml-1">Nom d'utilisateur</label>
+          <label class="block text-[10px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-[0.2em] mb-1 ml-1">Nom d'utilisateur</label>
           <input type="text" [(ngModel)]="username" name="username" required
-            class="block w-full bg-black/30 rounded-xl border-gray-700 px-4 py-2 text-white placeholder-gray-600 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all outline-none text-sm"
+            class="block w-full bg-gray-50 dark:bg-black/30 rounded-xl border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-600 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all outline-none text-sm"
             placeholder="admin">
         </div>
 
         <div>
-          <label class="block text-[10px] font-black text-blue-400 uppercase tracking-[0.2em] mb-1 ml-1">Mot de passe</label>
+          <label class="block text-[10px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-[0.2em] mb-1 ml-1">Mot de passe</label>
           <input type="password" [(ngModel)]="password" name="password" required
-            class="block w-full bg-black/30 rounded-xl border-gray-700 px-4 py-2 text-white placeholder-gray-600 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all outline-none text-sm"
+            class="block w-full bg-gray-50 dark:bg-black/30 rounded-xl border-gray-300 dark:border-gray-700 px-4 py-2 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-600 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all outline-none text-sm"
             placeholder="••••••••">
         </div>
       </div>
 
       <div class="flex items-center">
         <input id="remember-me" type="checkbox" [(ngModel)]="rememberMe" name="rememberMe"
-          class="h-4 w-4 rounded border-gray-700 bg-black/30 text-blue-600 focus:ring-blue-500/50">
-        <label for="remember-me" class="ml-2 block text-xs text-gray-400">
+          class="h-4 w-4 rounded border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-black/30 text-blue-600 focus:ring-blue-500/50">
+        <label for="remember-me" class="ml-2 block text-xs text-gray-600 dark:text-gray-400">
           Rester connecté
         </label>
       </div>
@@ -43,8 +43,8 @@
       </div>
     </form>
 
-    <div class="mt-4 border-t border-gray-700 pt-4 text-center">
-      <p class="text-[10px] text-gray-500 italic">Plateforme sécurisée — MDD</p>
+    <div class="mt-4 border-t border-gray-100 dark:border-gray-700 pt-4 text-center">
+      <p class="text-[10px] text-gray-400 dark:text-gray-500 italic">Plateforme sécurisée — MDD</p>
     </div>
 
   </div>

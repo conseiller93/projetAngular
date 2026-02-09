@@ -1,40 +1,34 @@
-<footer class="bg-gray-900 text-gray-300 mt-8">
+<footer class="bg-gray-50 dark:bg-gray-900 text-gray-600 dark:text-gray-300 mt-8 border-t border-gray-200 dark:border-gray-800 transition-colors duration-300">
   <div class="max-w-7xl mx-auto px-4 py-8">
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
 
-      <!-- Date -->
-      <p class="text-sm md:text-base">
+      <p class="text-sm md:text-base font-medium">
         📅 {{ currentDate }}
       </p>
 
-      <!-- Localisation -->
-      <p class="text-sm md:text-base">
+      <p class="text-sm md:text-base font-medium">
         📍 Localisation : {{ location }}
       </p>
 
-      <!-- Contacts -->
       <div class="flex flex-col md:flex-row md:space-x-6 space-y-2 md:space-y-0 text-sm">
         
-        <!-- Email -->
         <div class="flex items-center gap-1">
           📧
-          <a href="mailto:{{ contacts.email }}" class="ml-1 text-blue-400 hover:text-blue-200 break-words">
+          <a href="mailto:{{ contacts.email }}" class="ml-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200 break-words font-semibold">
             {{ contacts.email }}
           </a>
         </div>
 
-        <!-- Téléphone -->
         <div class="flex items-center gap-1">
           📞
-          <a href="tel:{{ contacts.phone }}" class="ml-1 text-blue-400 hover:text-blue-200">
+          <a href="tel:{{ contacts.phone }}" class="ml-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200 font-semibold">
             {{ contacts.phone }}
           </a>
         </div>
 
-        <!-- LinkedIn -->
         <div class="flex items-center gap-1">
           💼 LinkedIn :
-          <a href="{{ contacts.linkedin }}" target="_blank" class="ml-1 text-blue-400 hover:text-blue-200 break-words">
+          <a href="{{ contacts.linkedin }}" target="_blank" class="ml-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200 break-words font-semibold">
             Profil
           </a>
         </div>
@@ -44,11 +38,3 @@
     </div>
   </div>
 </footer>
-
-
-
-
-
-
-
-
